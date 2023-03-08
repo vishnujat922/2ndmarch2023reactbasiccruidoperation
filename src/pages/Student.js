@@ -7,14 +7,7 @@ function Student() {
   //2.1 Hooks Area
 
   // const[] = useState(initialValue,setVariable);
-  const [Students, setStudents] = useState([
-    {
-      id: 1, Name: 'Vishnu', CreatedAt: '223311'
-    },
-    {
-      id: 2, Name: 'Pushpendra', CreatedAt: '123123'
-    }
-  ])
+  const [students, setStudents] = useState([])
   const [payload, setPayload] = useState({
     "data": {
       "name": ""
@@ -84,27 +77,28 @@ function Student() {
     let trow = e.target.closest('tr');
     console.log(e.target.closest('tr').querySelector('td:first-child').innerHTML);
     let delid = e.target.closest('tr').querySelector('td:first-child').innerHTML;
-       let ans = window.confirm('Are You Sure do you want to Delete Student Data')
-      console.log(typeof ans);
-      if(ans===true){
-        console.log('Okay');
-        // Call the DELETE REST API
-        fetch(`http://localhost:1337/api/students/${delid}`,{
-          method:'DELETE',
-        })
-        .then((res)=>{
+    let ans = window.confirm('Do you Want to Delete Student Data');
+    console.log(typeof ans);
+    if (ans === true) {
+      console.log('Okay');
+      // Call the DELETE REST API
+      fetch(`http://localhost:1337/api/students/${delid}`, {
+        method: 'DELETE',
+      })
+        .then((res) => {
           // this json() function make the incomming data json readable
           return res.json();
         })
-        .then((data)=>{
+        .then((data) => {
+          trow.remove();
           console.log(data)
         })
-        .catch((err)=>{
+        .catch((err) => {
 
         });
-      }else{
-        console.log('Something is Wrong')
-      }
+    } else {
+      console.log('Something is Wrong')
+    }
   }
   //2.3 Return Statement
   return (
@@ -133,15 +127,15 @@ function Student() {
           </thead>
           <tbody>
             {
-              Students.map((cv, idx, arr) => {
-                return <tr>
+              students.map((cv, idx, arr) => {
+                return <tr key={idx}>
                   <td>{cv.id}</td>
                   <td>{cv.name}</td>
                   <td>{cv.createdAt}</td>
                   <td>
-                    <button className='btn btn-success btn-sm'>View</button>
-                    <button className='btn btn-primary btn-sm'>Edit</button>
-                    <button className='btn btn-danger btn-sm' onClick={(e) => {deleteStudent(e) }}>Delete</button>
+                    <button className="btn btn-success btn-sm">View</button>
+                    <a href={`/editStudent?id=${cv.id}&name=${cv.name}`} className="btn btn-primary btn-sm">Edit</a>
+                    <button className="btn btn-danger btn-sm" onClick={(e) => { deleteStudent(e) }}>Delete</button>
                   </td>
                 </tr>
               })
