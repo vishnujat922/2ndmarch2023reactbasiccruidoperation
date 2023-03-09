@@ -12,7 +12,7 @@ function EditStudent() {
         }
       });
     const [studentName, setStudentName] = useState('');
-    const [searchParams, setSearchParams] = useSearchParams();
+    //const [searchParams, setSearchParams] = useSearchParams();
 
     //After Page Loder /Component Render 
     // I want to Receive the data After the Page/Component load  
